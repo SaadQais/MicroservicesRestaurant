@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MangoRestaurant.WebMVC.Models.ProductDto>
+
+<br />
+
+<div class="container p-4 border">
+	<div class="row pb-2">
+		<div class="col">
+			<h2 class="text-primary">Products List</h2>
+		</div>
+		<div class="col text-end pt-1">
+			<a asp-action="Create" class="btn btn-outline-primary"><i class="fas fa-plus"></i> New Product</a>
+		</div>
+	</div>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Category</th>
+				<th>Price</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		   @foreach (var product in Model)
+		   {
+			   <tr>
+				   <td>@product.Name</td>
+				   <td>@product.Category</td>
+				   <td>@product.Price.ToString("c")</td>
+				   <td>
+					   <a asp-action="Edit" class="btn btn-success" asp-route-productId="@product.Id"><i class="fas fa-edit"></i></a> |
+					   <a asp-action="Delete" class="btn btn-danger" asp-route-productId="@product.Id"><i class="fas fa-trash"></i></a>
+				   </td>
+			   </tr>
+		   }
+		</tbody>
+	</table>
+</div>
