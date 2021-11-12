@@ -63,7 +63,7 @@ namespace MangoRestaurant.Services.Identity.Initializer
                 LastName = "Test"
             };
 
-            _userManager.CreateAsync(customer, "Me$$i170100!@#").GetAwaiter().GetResult();
+            _userManager.CreateAsync(customer, "c").GetAwaiter().GetResult();
             _userManager.AddToRoleAsync(customer, SD.Customer).GetAwaiter().GetResult();
 
             var customerClaims = _userManager.AddClaimsAsync(customer, new Claim[]

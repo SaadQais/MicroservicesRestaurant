@@ -31,17 +31,17 @@ namespace MangoRestaurant.Services.Identity
                 new Client
                 {
                     ClientId = "client",
-                    ClientSecrets = { new Secret("secrest".Sha256()) },
+                    ClientSecrets = { new Secret("secret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = { "read", "write", "profile" }
                 },
                 new Client
                 {
                     ClientId = "mango",
-                    ClientSecrets = { new Secret("secrest".Sha256()) },
+                    ClientSecrets = { new Secret("secret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.Code,
-                    RedirectUris = { "http://localhost:38452/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:38452/signout-callback-oidc" },
+                    RedirectUris = new [] { "https://localhost:44378/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:44378/signout-callback-oidc" },
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
