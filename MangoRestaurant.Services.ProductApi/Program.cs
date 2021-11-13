@@ -19,7 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority = "http://localhost:44365";
+        options.Authority = "https://localhost:44365";
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = false,
@@ -81,6 +81,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

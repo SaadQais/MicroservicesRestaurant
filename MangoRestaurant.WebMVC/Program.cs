@@ -19,6 +19,7 @@ builder.Services.AddAuthentication(options =>
     .AddCookie("Cookies", c =>
     {
         c.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+        c.AccessDeniedPath = "/Home/AccessDenied";
     })
     .AddOpenIdConnect("oidc", options =>
     {

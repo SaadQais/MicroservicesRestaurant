@@ -1,6 +1,7 @@
 ﻿using MangoRestaurant.WebMVC.Models;
 using MangoRestaurant.WebMVC.Services.Interfaces;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 using static MangoRestaurant.WebMVC.SD;
 
@@ -34,6 +35,11 @@ namespace MangoRestaurant.WebMVC.Services
                 {
                     message.Content = new StringContent(JsonConvert.SerializeObject(request.Data),
                         Encoding.UTF8, "application/json");
+                }
+
+                if(!string.IsNullOrEmpty(request.AccessToken))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.AccessToken);
                 }
 
                 message.Method = request.Method switch

@@ -1,5 +1,7 @@
 ﻿using MangoRestaurant.WebMVC.Models;
 using MangoRestaurant.WebMVC.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -18,7 +20,9 @@ namespace MangoRestaurant.WebMVC.Controllers
         {
             List<ProductDto>? products = new();
 
-            var response = await _productService.GetAllProductsAsync<ResponseDto>();
+            var token = await HttpContext.GetTokenAsync("access_token");
+
+            var response = await _productService.GetAllProductsAsync<ResponseDto>(token);
 
             if(response != null && response.IsSuccess)
             {
@@ -39,7 +43,9 @@ namespace MangoRestaurant.WebMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _productService.CreateProductAsync<ResponseDto>(product);
+                var token = await HttpContext.GetTokenAsync("access_token");
+
+                var response = await _productService.CreateProductAsync<ResponseDto>(product, token);
 
                 if (response != null && response.IsSuccess)
                 {
@@ -52,7 +58,9 @@ namespace MangoRestaurant.WebMVC.Controllers
 
         public async Task<IActionResult> Edit(int productId)
         {
-            var response = await _productService.GetProductByIdAsync<ResponseDto>(productId);
+            var token = await HttpContext.GetTokenAsync("access_token");
+
+            var response = await _productService.GetProductByIdAsync<ResponseDto>(productId, token);
 
             if (response != null && response.IsSuccess)
             {
@@ -70,7 +78,9 @@ namespace MangoRestaurant.WebMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _productService.UpdateProductAsync<ResponseDto>(product);
+                var token = await HttpContext.GetTokenAsync("access_token");
+
+                var response = await _productService.UpdateProductAsync<ResponseDto>(product, token);
 
                 if (response != null && response.IsSuccess)
                 {
@@ -81,9 +91,12 @@ namespace MangoRestaurant.WebMVC.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int productId)
         {
-            var response = await _productService.GetProductByIdAsync<ResponseDto>(productId);
+            var token = await HttpContext.GetTokenAsync("access_token");
+
+            var response = await _productService.GetProductByIdAsync<ResponseDto>(productId, token);
 
             if (response != null && response.IsSuccess)
             {
@@ -96,12 +109,15 @@ namespace MangoRestaurant.WebMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(ProductDto product)
         {
             if (ModelState.IsValid)
             {
-                var response = await _productService.DeleteProductAsync<ResponseDto>(product.Id);
+                var token = await HttpContext.GetTokenAsync("access_token");
+
+                var response = await _productService.DeleteProductAsync<ResponseDto>(product.Id, token);
 
                 if (response != null && response.IsSuccess)
                 {

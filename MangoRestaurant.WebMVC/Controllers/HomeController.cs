@@ -30,6 +30,11 @@ namespace MangoRestaurant.WebMVC.Controllers
             return SignOut("Cookies", "oidc");
         }
 
+        public IActionResult AccessDenied()
+        {
+            return Redirect("https://localhost:44365/Account/AccessDenied");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

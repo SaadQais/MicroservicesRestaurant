@@ -1,7 +1,9 @@
+using Duende.IdentityServer.Services;
 using MangoRestaurant.Services.Identity;
 using MangoRestaurant.Services.Identity.Data;
 using MangoRestaurant.Services.Identity.Initializer;
 using MangoRestaurant.Services.Identity.Models;
+using MangoRestaurant.Services.Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +36,8 @@ builder.Services.AddIdentityServer(options =>
 builder.Services.AddControllersWithViews();
 
 var dbInitializer = builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 
 var app = builder.Build();
