@@ -20,7 +20,6 @@ namespace MangoRestaurant.Services.ProductApi.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<object> GetAllAsync()
         {            
             try
@@ -39,7 +38,6 @@ namespace MangoRestaurant.Services.ProductApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<object> GetByIdAsync(int id)
         {
             try

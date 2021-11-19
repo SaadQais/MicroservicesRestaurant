@@ -1,4 +1,6 @@
-﻿namespace MangoRestaurant.WebMVC.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MangoRestaurant.WebMVC.Models
 {
     public class ProductDto
     {
@@ -8,5 +10,8 @@
         public string Description { get; set; }
         public string Category { get; set; }
         public string ImageUrl { get; set; }
+
+        [Range(1, 100)]
+        public int Count { get; set; } = 1;
     }
 }
