@@ -1,6 +1,6 @@
-using MangoRestaurant.AutoMapper;
-using MangoRestaurant.Services.ProductApi.DbContexts;
-using MangoRestaurant.Services.ProductApi.Repository;
+using MangoRestaurant.Services.ShoppingCartApi.AutoMapper;
+using MangoRestaurant.Services.ShoppingCartApi.DbContexts;
+using MangoRestaurant.Services.ShoppingCartApi.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -13,6 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddControllers();
 
@@ -40,7 +42,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Products Api", Version = "1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shopping Cart Api", Version = "1" });
     c.EnableAnnotations();
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -70,8 +72,6 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration));
-
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
