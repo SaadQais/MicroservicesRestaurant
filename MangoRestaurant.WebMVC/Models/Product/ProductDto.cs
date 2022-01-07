@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MangoRestaurant.WebMVC.Models
+namespace MangoRestaurant.WebMVC.Models.Product
 {
     public class ProductDto
     {

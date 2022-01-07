@@ -1,4 +1,5 @@
 ﻿using MangoRestaurant.WebMVC.Models;
+using MangoRestaurant.WebMVC.Models.Product;
 using MangoRestaurant.WebMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +23,7 @@ namespace MangoRestaurant.WebMVC.Controllers
 
             var token = await HttpContext.GetTokenAsync("access_token");
 
-            var response = await _productService.GetAllProductsAsync<ResponseDto>(token);
+            var response = await _productService.GetAllAsync<ResponseDto>(token);
 
             if(response != null && response.IsSuccess)
             {
@@ -45,7 +46,7 @@ namespace MangoRestaurant.WebMVC.Controllers
             {
                 var token = await HttpContext.GetTokenAsync("access_token");
 
-                var response = await _productService.CreateProductAsync<ResponseDto>(product, token);
+                var response = await _productService.CreateAsync<ResponseDto>(product, token);
 
                 if (response != null && response.IsSuccess)
                 {
@@ -60,7 +61,7 @@ namespace MangoRestaurant.WebMVC.Controllers
         {
             var token = await HttpContext.GetTokenAsync("access_token");
 
-            var response = await _productService.GetProductByIdAsync<ResponseDto>(productId, token);
+            var response = await _productService.GetByIdAsync<ResponseDto>(productId, token);
 
             if (response != null && response.IsSuccess)
             {
@@ -80,7 +81,7 @@ namespace MangoRestaurant.WebMVC.Controllers
             {
                 var token = await HttpContext.GetTokenAsync("access_token");
 
-                var response = await _productService.UpdateProductAsync<ResponseDto>(product, token);
+                var response = await _productService.UpdateAsync<ResponseDto>(product, token);
 
                 if (response != null && response.IsSuccess)
                 {
@@ -96,7 +97,7 @@ namespace MangoRestaurant.WebMVC.Controllers
         {
             var token = await HttpContext.GetTokenAsync("access_token");
 
-            var response = await _productService.GetProductByIdAsync<ResponseDto>(productId, token);
+            var response = await _productService.GetByIdAsync<ResponseDto>(productId, token);
 
             if (response != null && response.IsSuccess)
             {
@@ -117,7 +118,7 @@ namespace MangoRestaurant.WebMVC.Controllers
             {
                 var token = await HttpContext.GetTokenAsync("access_token");
 
-                var response = await _productService.DeleteProductAsync<ResponseDto>(product.Id, token);
+                var response = await _productService.DeleteAsync<ResponseDto>(product.Id, token);
 
                 if (response != null && response.IsSuccess)
                 {
