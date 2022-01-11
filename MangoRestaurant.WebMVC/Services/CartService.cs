@@ -23,7 +23,7 @@ namespace MangoRestaurant.WebMVC.Services
             return await SendAsync<T>(new ApiRequest
             {
                 Method = SD.ApiMethod.GET,
-                Url = SD.ShoppingCartAPIBase + $"/api/cart/GetCart" + userId,
+                Url = SD.ShoppingCartAPIBase + $"/api/cart/GetCart/" + userId,
                 AccessToken = token
             });
         }

@@ -57,34 +57,37 @@ namespace MangoRestaurant.WebMVC.Controllers
         [Authorize]
         public async Task<IActionResult> DetailsPost(ProductDto productDto)
         {
-            CartDetailsDto cartDetailsDto = new()
+            CartDto cartDto = new()
+            {
+                CartHeader = new CartHeaderDto
+                {
+                    UserId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value,
+                }
+            };
+
+            CartDetailsDto cartDetails = new()
             {
                 Count = productDto.Count,
                 ProductId = productDto.Id
             };
 
-            var response = await _productService.GetByIdAsync<ResponseDto>(productDto.Id, "");
+            var resp = await _productService.GetByIdAsync<ResponseDto>(productDto.Id, "");
 
-            if(response != null && response.IsSuccess)
+            if (resp != null && resp.IsSuccess)
             {
-                cartDetailsDto.Product = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
+                cartDetails.Product = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(resp.Result));
             }
 
-            CartDto cartDto = new()
-            {
-                CartHeader = new CartHeaderDto
-                {
-                    UserId = User.Claims.Where(c => c.Type == "sub")?.FirstOrDefault()?.Value
-                },
+            List<CartDetailsDto> cartDetailsDtos = new();
 
-                CartDetails = new List<CartDetailsDto>() { cartDetailsDto }
-            };
+            cartDetailsDtos.Add(cartDetails);
+            cartDto.CartDetails = cartDetailsDtos;
 
             var accessToken = await HttpContext.GetTokenAsync("access_token");
 
-            var addToCartResponse = await _cartService.CreateAsync<ResponseDto>(cartDto, accessToken);
+            var addToCartResp = await _cartService.CreateAsync<ResponseDto>(cartDto, accessToken);
 
-            if (addToCartResponse != null && addToCartResponse.IsSuccess)
+            if (addToCartResp != null && addToCartResp.IsSuccess)
             {
                 return RedirectToAction(nameof(Index));
             }
