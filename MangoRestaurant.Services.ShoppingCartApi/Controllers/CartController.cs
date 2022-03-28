@@ -1,4 +1,5 @@
-﻿using MangoRestaurant.Services.ShoppingCartApi.Models.Dto;
+﻿using MangoRestaurant.Services.ShoppingCartApi.Messages;
+using MangoRestaurant.Services.ShoppingCartApi.Models.Dto;
 using MangoRestaurant.Services.ShoppingCartApi.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -88,6 +89,62 @@ namespace MangoRestaurant.Services.ShoppingCartApi.Controllers
             try
             {
                 _response.Result = await _cartRepository.RemoveFromCartAsync(cartId);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return _response;
+        }
+
+        [HttpPost("ApplyCoupon")]
+        public async Task<object> ApplyCouponAsync([FromBody] CartDto cartDto)
+        {
+            try
+            {
+                _response.Result = await _cartRepository.ApplyCouponAsync(cartDto.CartHeader.UserId,
+                    cartDto.CartHeader.CouponCode);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return _response;
+        }
+
+        [HttpPost("RemoveCoupon")]
+        public async Task<object> RemoveCouponAsync([FromBody] string userId)
+        {
+            try
+            {
+                _response.Result = await _cartRepository.RemoveCouponAsync(userId);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return _response;
+        }
+
+        [HttpPost("Checkout")]
+        public async Task<object> CheckoutAsync(CheckoutHeaderDto checkoutHeader)
+        {
+            try
+            {
+                var cart = await _cartRepository.GetByUserIdAsync(checkoutHeader.UserId);
+
+                if (cart == null)
+                    return BadRequest();
+
+                checkoutHeader.CartDetails = cart.CartDetails;
+                //logic to add message to process order
+
             }
             catch (Exception ex)
             {

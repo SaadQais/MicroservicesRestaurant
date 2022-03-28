@@ -1,6 +1,8 @@
-﻿namespace MangoRestaurant.WebMVC.Models.ShoppingCart
+﻿using MangoRestaurant.Services.ShoppingCartApi.Models.Dto;
+
+namespace MangoRestaurant.Services.ShoppingCartApi.Messages
 {
-    public class CartHeaderDto
+    public class CheckoutHeaderDto
     {
         public int Id { get; set; }
         public string UserId { get; set; }
@@ -15,5 +17,7 @@
         public string CardNumber { get; set; }
         public string CVV { get; set; }
         public string ExpireMonthYear { get; set; }
+        public int CartTotalItems { get; set; }
+        public IEnumerable<CartDetailsDto>? CartDetails { get; set; }
     }
 }

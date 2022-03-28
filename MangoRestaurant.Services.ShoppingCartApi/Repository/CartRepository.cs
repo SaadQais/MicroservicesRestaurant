@@ -136,5 +136,29 @@ namespace MangoRestaurant.Services.ShoppingCartApi.Repository
 
             return false;
         }
+
+        public async Task<bool> ApplyCouponAsync(string userId, string couponCode)
+        {
+            var cart = await _context.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId);
+
+            cart.CouponCode = couponCode;
+            _context.CartHeaders.Update(cart);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> RemoveCouponAsync(string userId)
+        {
+            var cart = await _context.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId);
+
+            cart.CouponCode = "";
+            _context.CartHeaders.Update(cart);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
